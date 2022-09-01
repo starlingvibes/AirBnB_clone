@@ -1,13 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 """ This module defines a base class for our AirBnB project """
-import uuid
 import datetime
+import uuid
 
 
 class BaseModel:
     """ A base model class """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
         self.id = str(uuid.uuid4())
         self.created_at = datetime.datetime.now()
