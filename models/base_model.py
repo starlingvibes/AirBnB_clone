@@ -22,7 +22,7 @@ class BaseModel:
             self.__dict__.update(kwargs)
 
     def __str__(self):
-        """ Prints a string representation of the class """
+        """ Returns a string representation of the class """
         return (f"[{self.__class__.__name__}] ({self.id}) <{self.__dict__}>")
 
     def save(self):
@@ -45,4 +45,5 @@ a = BaseModel()
 b = BaseModel(**{'id': '6afad3ca-a07c-4b42-acf1-f187cdd02b11', 'created_at': '2022-09-01T16:54:37.530665',
               'updated_at': '2022-09-01T16:54:37.530665', '__class__': 'BaseModel'})
 print(a.to_dict())
+print("--")
 print(b)
