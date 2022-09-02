@@ -5,13 +5,24 @@ import sys
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
 
 
 class HBNBCommand(cmd.Cmd):
     """ The command interpreter class inheriting from the `Cmd` class """
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
-    classes = {'BaseModel': BaseModel, 'User': User}
+    classes = {'BaseModel': BaseModel, 'User': User, 'Amenity': Amenity,
+               'City': City, 'Place': Place, 'Review': Review, 'State': State}
+
+    def preloop(self):
+        """ Prints if isarry is false """
+        if not sys.__stdin__.isatty():
+            print("(hbnb)")
 
     def do_quit(self, command):
         """ Method to exit the console """
@@ -161,7 +172,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             args = args[2]
             # check for quoted arg
-            if args and args[0] is '\"':
+            if args and args[0] == '\"':
                 second_quote = args.find('\"', 1)
                 att_name = args[1:second_quote]
                 args = args[second_quote + 1:]
@@ -169,10 +180,10 @@ class HBNBCommand(cmd.Cmd):
             args = args.partition(' ')
 
             # if att_name was not quoted arg
-            if not att_name and args[0] is not ' ':
+            if not att_name and args[0] != ' ':
                 att_name = args[0]
             # check for quoted val arg
-            if args[2] and args[2][0] is '\"':
+            if args[2] and args[2][0] == '\"':
                 att_val = args[2][1:args[2].find('\"', 1)]
 
             # if att_val was not quoted arg

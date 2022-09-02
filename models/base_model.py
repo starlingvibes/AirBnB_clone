@@ -43,11 +43,3 @@ class BaseModel:
         dictionary.update(
             {"updated_at": datetime.datetime.isoformat(self.updated_at)})
         return dictionary
-
-
-# a = BaseModel()
-# b = BaseModel(**{'id': '6afad3ca-a07c-4b42-acf1-f187cdd02b11', 'created_at': '2022-09-01T16:54:37.530665',
-#               'updated_at': '2022-09-01T16:54:37.530665', '__class__': 'BaseModel'})
-# print(a.to_dict())
-# print("--")
-# print(b)

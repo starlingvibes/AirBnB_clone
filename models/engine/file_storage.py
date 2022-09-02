@@ -34,10 +34,20 @@ class FileStorage:
         """ Deserializes the JSON file to __objects only if the file exists, otherwise catch any exceptions """
         from models.base_model import BaseModel
         from models.user import User
+        from models.amenity import Amenity
+        from models.city import City
+        from models.place import Place
+        from models.review import Review
+        from models.state import State
 
         classes = {
             'BaseModel': BaseModel,
             'User': User,
+            'Amenity': Amenity,
+            'City': City,
+            'Place': Place,
+            'Review': Review,
+            'State': State
         }
 
         try:
@@ -45,7 +55,7 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, value in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[value['__class__']](**value)
         except FileNotFoundError:
             pass
 
