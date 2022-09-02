@@ -9,10 +9,12 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
+        from models import storage
         if not kwargs:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.now()
             self.updated_at = datetime.datetime.now()
+            storage.new()
         else:
             kwargs['created_at'] = datetime.datetime.strptime(
                 kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
@@ -27,7 +29,9 @@ class BaseModel:
 
     def save(self):
         """ Updates `updated_at` with the current datetime """
+        from models import storage
         self.updated_at = datetime.datetime.now()
+        storage.save()
 
     def to_dict(self):
         """ Returns a dictionary containing all key-value pairs of __dict__ of the instance """
