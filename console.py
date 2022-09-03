@@ -19,6 +19,8 @@ class HBNBCommand(cmd.Cmd):
     classes = {'BaseModel': BaseModel, 'User': User, 'Amenity': Amenity,
                'City': City, 'Place': Place, 'Review': Review, 'State': State}
 
+    methods = ['all', 'count', 'show', 'destroy', 'update']
+
     def preloop(self):
         """ Prints if isarry is false """
         if not sys.__stdin__.isatty():
@@ -28,10 +30,18 @@ class HBNBCommand(cmd.Cmd):
         """ Method to exit the console """
         exit()
 
+    def help_quit(self):
+        """ Prints the help documentation for `quit` """
+        print("Exits the program with formatting\n")
+
     def do_EOF(self, command):
         """ Method to handle EOF """
         print()
         exit()
+
+    def help_EOF(self):
+        """ Prints the help documentation for `EOF` """
+        print("Exits the program without formatting\n")
 
     def emptyline(self):
         """ Do nothing for empty command """
@@ -49,6 +59,11 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
         print(new_instance.id)
         storage.save()
+
+    def help_create(self):
+        """ Help documentation for the create method """
+        print("Creates a class of any type")
+        print("[Usage]: create <className>\n")
 
     def do_show(self, args):
         """ Prints the string representation of an instance based on class name """
@@ -79,6 +94,11 @@ class HBNBCommand(cmd.Cmd):
         except KeyError:
             print("** no instance found **")
 
+    def help_show(self):
+        """ Help documentation for the show method """
+        print("Shows an individual instance of a class")
+        print("[Usage]: show <className> <objectId>\n")
+
     def do_destroy(self, args):
         """ Deletes an instance based on class name and id, writing the change into a JSON file """
         new = args.partition(" ")
@@ -107,6 +127,11 @@ class HBNBCommand(cmd.Cmd):
         except KeyError:
             print("** no instance found **")
 
+    def help_destroy(self):
+        """ Help documentation for the destroy method """
+        print("Destroys an individual instance of a class")
+        print("[Usage]: destroy <className> <objectId>\n")
+
     def do_all(self, args):
         """ Prints the string representation of all instances based or not on the class name """
         print_list = []
@@ -125,6 +150,11 @@ class HBNBCommand(cmd.Cmd):
                 print_list.append(str(value))
 
         print(print_list)
+
+    def help_all(self):
+        """ Help documentation for the all command """
+        print("Shows all objects, or all of a class")
+        print("[Usage]: all <className>\n")
 
     def do_update(self, args):
         """
@@ -214,6 +244,11 @@ class HBNBCommand(cmd.Cmd):
                 new_dict.__dict__.update({att_name: att_val})
         # save updates to file
         new_dict.save()
+
+    def help_update(self):
+        """ Help documentation for the update command """
+        print("Updates an object with new information")
+        print("[Usage]: update <className> <id> <attName> <attVal>\n")
 
 
 if __name__ == "__main__":
