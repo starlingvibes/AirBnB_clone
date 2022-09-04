@@ -7,7 +7,7 @@ import unittest
 
 
 class test_basemodel(unittest.TestCase):
-    """ """
+    """ unittest class for the BaseModel class """
 
     def __init__(self, *args, **kwargs):
         """ """

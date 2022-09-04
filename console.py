@@ -21,10 +21,71 @@ class HBNBCommand(cmd.Cmd):
 
     methods = ['all', 'count', 'show', 'destroy', 'update']
 
+    types = {
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
+
     def preloop(self):
         """ Prints if isarry is false """
         if not sys.__stdin__.isatty():
             print("(hbnb)")
+
+    def precmd(self, line):
+        """ Hook method to reformat command line for advanced command syntax.
+
+        Usage: <className>.<command>([<id> [<*args> or <**kwargs.]])
+        (Brackets denote optional fields in usage example.)
+        """
+        # initalize line elements
+        _cmd = _cls = _id = _args = ''
+
+        # scan for general formatting - i.e '.', '(', ')'
+        if not ('.' in line and '(' in line and ')' in line):
+            return line
+
+        try:
+            # parse line from left to right
+            pline = line[:]
+
+            # isolate <className>
+            _cls = pline[:pline.find('.')]
+
+            # isolate and validate <command>
+            _cmd = pline[pline.find('.' + 1):pline.find('(')]
+            if _cmd not in HBNBCommand.methods:
+                raise Exception
+
+            # if parentheses contains arguments, parse them
+            pline = pline[pline.find('(') + 1:pline.find(')')]
+            if pline:
+                # partition args: (<id>, [<delim>], [<*args>])
+                pline = pline.partition(', ')  # pline convert to tuple
+
+                # isolaate _id, stripping quotes
+                _id = pline[0].replace('\"', '')
+
+                # if arguments exist beyond _id
+                pline = pline[2].strip()  # pline is now str
+                if pline:
+                    # check for *args or **kwargs
+                    if pline[0] == '{' and pline[-1] == '}' and type(eval(pline)) is dict:
+                        _args = pline
+                    else:
+                        _args = pline.replace(',', '')
+            line = ' '.join([_cmd, _cls, _id, _args])
+
+        except Exception as err:
+            pass
+        finally:
+            return line
+
+    def postcmd(self, stop, line):
+        """ Hook method that prints if isatty is false """
+        if not sys.__stdin__.isatty():
+            print('(hbnb) ', end='')
+        return stop
 
     def do_quit(self, command):
         """ Method to exit the console """
@@ -138,12 +199,12 @@ class HBNBCommand(cmd.Cmd):
 
         if args:
             # remove trailing arguments
-            args = args.split(" ")[0]
+            args = args.split(' ')[0]
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
             for key, value in storage._FileStorage__objects.items():
-                if k.split(".")[0] == args:
+                if key.split(".")[0] == args:
                     print_list.append(str(value))
         else:
             for key, value in storage._FileStorage__objects.items():
@@ -155,6 +216,18 @@ class HBNBCommand(cmd.Cmd):
         """ Help documentation for the all command """
         print("Shows all objects, or all of a class")
         print("[Usage]: all <className>\n")
+
+    def do_count(self, args):
+        """ Method to count the current number of class instances """
+        count = 0
+        for key, value in storage._FileStorage__objects.items():
+            if args == key.split('.')[0]:
+                count += 1
+        print(count)
+
+    def help_count(self):
+        """ Help documentation for the count command """
+        print("Usage: count <class_name>")
 
     def do_update(self, args):
         """
