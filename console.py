@@ -53,7 +53,7 @@ class HBNBCommand(cmd.Cmd):
             _cls = pline[:pline.find('.')]
 
             # isolate and validate <command>
-            _cmd = pline[pline.find('.' + 1):pline.find('(')]
+            _cmd = pline[pline.find('.') + 1:pline.find('(')]
             if _cmd not in HBNBCommand.methods:
                 raise Exception
 
