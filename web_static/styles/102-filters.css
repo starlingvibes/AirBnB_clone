@@ -29,12 +29,11 @@
 .container .filters button {
   font-size: 18px;
   background-color: #ff5a5f;
-  height: 48px;
+  height: 60%;
   width: 20%;
   border: none;
   border-radius: 4px;
   margin: auto 30px auto auto;
-  color: white;
 }
 
 .container .filters button:hover {
@@ -90,6 +89,12 @@
 
 .container .filters .popover li {
   margin: 5px 0 5px 0;
+}
+
+@media screen and (min-width: 1800px) {
+  .container .filters {
+    min-height: 200px;
+  }
 }
 
 @media screen and (max-width: 600px) {
