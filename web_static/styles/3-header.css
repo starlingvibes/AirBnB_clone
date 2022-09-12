@@ -5,8 +5,11 @@ header {
   border-bottom: 1px solid #cccccc;
 }
 
-img {
-  display: flex;
-  align-items: center;
+#logo {
+  height: 100%;
+  background-image: url('../images/logo.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 142px;
   margin-left: 20px;
 }
